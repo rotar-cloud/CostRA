@@ -1,0 +1,63 @@
+{% extends 'layout.twig' %}{% block content %}
+<form class="expense-form" method="post">
+    {% include 'csrf.twig' %}
+    {% if owners %}<label class="wide">Владелец<select required name="user_id">{% for o in owners %}<option value="{{ o.id }}" {{ o.id == formData.user_id ? 'selected' }}>{{ o.full_name }} · {{ o.department }}</option>{% endfor %}</select>{% if errors.user_id %}<span class="error" role="alert">{{ errors.user_id }}</span>{% endif %}</label>{% endif %}
+    <div class="field">
+        <label for="title">Название расхода</label>
+        <input id="title" name="title" type="text" required minlength="3" maxlength="80"
+               value="{{ formData.title }}" {% if errors.title is defined %}aria-invalid="true" aria-describedby="title-error"{% endif %}>
+        {% if errors.title is defined %}
+            <span class="error" id="title-error">{{ errors.title }}</span>
+        {% endif %}
+    </div>
+    <div class="field">
+        <label for="amount">Сумма, MDL</label>
+        <input id="amount" name="amount" type="number" required min="0.01" max="9999999999.99" step="0.01"
+               value="{{ formData.amount }}" {% if errors.amount is defined %}aria-invalid="true" aria-describedby="amount-error"{% endif %}>
+        {% if errors.amount is defined %}
+            <span class="error" id="amount-error">{{ errors.amount }}</span>
+        {% endif %}
+    </div>
+    <div class="field">
+        <label for="expense_date">Дата расхода</label>
+        <input id="expense_date" name="expense_date" type="date" required min="0001-01-01" max="9999-12-31"
+               value="{{ formData.expense_date }}" {% if errors.expense_date is defined %}aria-invalid="true" aria-describedby="expense_date-error"{% endif %}>
+        {% if errors.expense_date is defined %}
+            <span class="error" id="expense_date-error">{{ errors.expense_date }}</span>
+        {% endif %}
+    </div>
+    <div class="field">
+        <label for="category_id">Категория</label>
+        <select id="category_id" name="category_id" required {% if errors.category_id is defined %}aria-invalid="true" aria-describedby="category_id-error"{% endif %}>
+            <option value="">Выберите категорию</option>
+            {% for category in categories %}
+                <option value="{{ category.id }}"{% if formData.category_id == category.id %} selected{% endif %}>{{ category.name }}</option>
+            {% endfor %}
+        </select>
+        {% if errors.category_id is defined %}
+            <span class="error" id="category_id-error">{{ errors.category_id }}</span>
+        {% endif %}
+    </div>
+    <div class="field wide">
+        <label for="merchant">Получатель / магазин</label>
+        <input id="merchant" name="merchant" type="text" required minlength="2" maxlength="80"
+               value="{{ formData.merchant }}" {% if errors.merchant is defined %}aria-invalid="true" aria-describedby="merchant-error"{% endif %}>
+        {% if errors.merchant is defined %}
+            <span class="error" id="merchant-error">{{ errors.merchant }}</span>
+        {% endif %}
+    </div>
+    <div class="field wide">
+        <label for="description">Описание</label>
+        <textarea id="description" name="description" required minlength="5" maxlength="500" rows="4" {% if errors.description is defined %}aria-invalid="true" aria-describedby="description-error"{% endif %}>{{ formData.description }}</textarea>
+        {% if errors.description is defined %}
+            <span class="error" id="description-error">{{ errors.description }}</span>
+        {% endif %}
+    </div>
+    <div class="field wide">
+        <label for="is_recurring" class="checkbox"><input id="is_recurring" name="is_recurring" type="checkbox" value="1"{% if formData.is_recurring is same as(true) %} checked{% endif %} {% if errors.is_recurring is defined %}aria-invalid="true" aria-describedby="is_recurring-error"{% endif %}> Регулярный расход</label>
+        {% if errors.is_recurring is defined %}
+            <span class="error" id="is_recurring-error">{{ errors.is_recurring }}</span>
+        {% endif %}
+    </div>
+    <div class="wide"><button class="primary" type="submit">Сохранить заявку</button></div>
+</form>{% endblock %}

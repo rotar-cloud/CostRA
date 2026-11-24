@@ -1,0 +1,12 @@
+{% extends 'layout.twig' %}{% block content %}
+{% if people %}<div class="scroll"><table><tr><th>Имя</th><th>Логин</th><th>Подразделение</th><th>Роль</th></tr>{% for p in people %}<tr><td>{{ p.full_name }}</td><td>{{ p.username }}</td><td>{{ p.department }}</td><td><span class="role role-{{ p.role }}">{{ p.role=='admin'?'Администратор':'Сотрудник' }}</span></td></tr>{% endfor %}</table></div>{% endif %}
+<div class="{{ page=='users'?'admin-account':'auth' }}">
+{% if page!='users' %}<section class="panel identity"><img width="55" src="assets/logo.svg" alt="CostRA"><h2>{{ page=='login'?'Защищённый доступ':'Команда предприятия' }}</h2><img class="auth-art" alt="" src="assets/{{ page=='login'?'access':'team' }}.svg"></section>{% endif %}
+<form class="panel stack" method="post"><h2>{{ page=='users'?'Новый администратор':title }}</h2>{% include 'csrf.twig' %}
+{% if page!='login' %}<label>Полное имя<input name="full_name" required minlength="2" maxlength="100" value="{{ formData.full_name }}"></label>
+<label>Подразделение<select name="department_id" required><option value="">Выберите отдел</option>{% for d in departments %}<option value="{{ d.id }}" {{ formData.department_id==d.id?'selected' }}>{{ d.name }}</option>{% endfor %}</select></label>{% endif %}
+<label>Логин<input required name="username" autocomplete="username" {% if page!='login' %}pattern="[A-Za-z0-9_]{3,32}"{% endif %} value="{{ formData.username }}"></label>
+<label>Пароль<input required type="password" name="password" autocomplete="{{ page=='login'?'current-password':'new-password' }}" {% if page!='login' %}minlength="8"{% endif %}></label>
+{% if page!='login' %}<label>Повторите пароль<input type="password" required name="confirm" autocomplete="new-password"></label>{% endif %}
+<button>{{ page=='login'?'Войти':'Создать учётную запись' }}</button>
+{% if page=='login' %}<a href="register.php">Создать учётную запись</a>{% elseif page=='register' %}<a href="login.php">Уже есть аккаунт? Войти</a>{% endif %}</form></div>{% endblock %}

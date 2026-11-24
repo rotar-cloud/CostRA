@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="CostRA">
+  <rect x="2" y="2" width="60" height="60" rx="12" fill="#192330" stroke="#384354"/>
+  <path d="M41 17 H24 L14 32 L24 47 H41" stroke="#D4A017" stroke-width="5" fill="none" stroke-linejoin="round"/>
+  <path d="M28 39 V30 M36 39 V24 M44 39 V18" stroke="#E8E9EC" stroke-width="4" stroke-linecap="round"/>
+</svg>

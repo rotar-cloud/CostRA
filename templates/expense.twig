@@ -1,0 +1,37 @@
+{% extends 'layout.twig' %}
+{% block content %}
+<a class="back" href="expenses.php">← К списку расходов</a>
+{% set reviewing=admin and row.status=='pending' %}
+<div class="expense-detail {{ reviewing?'with-review' }}">
+<article class="panel">
+    <span class="status {{ row.status }}">{{ statuses[row.status] }}</span>
+    <h2 class="amount">{{ row.amount|currency }}</h2>
+    <dl>{% for k,v in {'Владелец':row.full_name,'Подразделение':row.department,'Дата расхода':row.expense_date|date('d.m.Y',false),'Категория':row.category_name,'Получатель':row.merchant,'Описание':row.description,'Регулярный расход':row.is_recurring?'Да':'Нет','Создано':row.created_at|local_time} %}
+        <dt>{{ k }}</dt><dd>{{ v }}</dd>{% endfor %}
+        {% if row.reviewer %}<dt>Решение</dt><dd>{{ row.reviewer }} · {{ row.reviewed_at|local_time }}<br>{{ row.review_note }}</dd>{% endif %}
+    </dl>
+    <div class="actions">
+    {% if admin or row.status=='pending' %}<a class="outline" href="edit.php?id={{ row.id }}">Редактировать</a>{% endif %}
+    {% if admin %}<form method="post" action="delete.php" data-confirm="Удалить эту заявку без возможности восстановления?">{% include 'csrf.twig' %}
+        <input type="hidden" name="id" value="{{ row.id }}"><button class="danger">Удалить заявку</button></form>{% endif %}
+    </div>
+</article>
+{% if reviewing %}
+<form class="panel stack review-panel" method="post" action="review.php">
+    <h2>Согласование</h2>{% include 'csrf.twig' %}<input type="hidden" name="id" value="{{ row.id }}">
+    <small>{{ row.department }} · {{ row.expense_date|date('m.Y',false) }}</small>
+    {% if budget.amount %}
+    <dl><dt>Месячный лимит</dt><dd>{{ budget.amount|currency }}</dd>
+        <dt>После одобрения</dt><dd>{{ budget.projected|currency }}</dd></dl>
+    <div><strong>{{ budget.projected_percent }}%</strong>{% include 'meter.twig' with {percent:budget.projected_percent,over:budget.excess>0} only %}</div>
+    {% if budget.excess>0 %}<p class="notice error">Превышение лимита на {{ budget.excess|currency }}</p>{% endif %}
+    {% else %}<p>Бюджет на этот месяц не задан.</p>{% endif %}
+    <label>Комментарий (обязателен при отклонении)
+        <textarea name="note" rows="3" {% if reviewError %}aria-invalid="true" aria-describedby="review-error" autofocus{% endif %}>{{ reviewNote }}</textarea>
+    </label>
+    {% if reviewError %}<p id="review-error" class="notice error" role="alert">{{ reviewError }}</p>{% endif %}
+    <div class="actions"><button name="decision" value="approved">Одобрить</button>
+        <button class="outline {{ decision=='rejected'?'chosen' }}" name="decision" value="rejected">Отклонить</button></div>
+</form>
+{% endif %}
+</div>{% endblock %}

@@ -1,0 +1,7 @@
+{% extends 'layout.twig' %}{% block content %}
+<form class="filters"><label>Поиск<input type="search" name="q" placeholder="Название, получатель, описание" value="{{ filters.q }}"></label>
+{% for key,options in {'category_id':categories,'department_id':departments} %}{% if options %}<label>{{ key=='category_id'?'Категория':'Подразделение' }}<select name="{{ key }}"><option value="">Все</option>{% for o in options %}<option value="{{ o.id }}" {{ filters[key]==o.id?'selected' }}>{{ o.name }}</option>{% endfor %}</select></label>{% endif %}{% endfor %}
+<label>Статус<select name="status"><option value="">Все</option>{% for k,s in statuses %}<option value="{{ k }}" {{ filters.status==k?'selected' }}>{{ s }}</option>{% endfor %}</select></label>
+<label>С даты<input type="date" name="from" value="{{ filters.from }}"></label><label>По дату<input type="date" name="to" value="{{ filters.to }}"></label>
+<label>Порядок<select name="sort"><option value="date">По дате</option><option value="amount" {{ filters.sort=='amount'?'selected' }}>По сумме</option></select></label><button>Найти</button><a href="expenses.php">Сбросить</a></form>
+{% include 'table.twig' %}{% endblock %}

@@ -1,0 +1,4 @@
+{% extends 'layout.twig' %}{% block content %}
+<section class="hero"><div><h1>Финансовый контроль начинается с каждого <em>расхода</em></h1><p>Заявки сотрудников, решения руководителей и бюджеты подразделений в одной системе.</p>
+<a class="button" href="{{ user ? 'dashboard.php' : 'login.php' }}">{{ user ? 'В кабинет' : 'Войти в систему' }} →</a>{% if not user %} <a href="register.php">Регистрация</a>{% endif %}</div>{% include 'graphic.twig' %}</section>
+<h2>Категории расходов</h2><div class="cards">{% for c in categories %}<article><i aria-hidden="true">{{ ['▤','⇄','♨','▦','⚙','◇'][loop.index0] }}</i><h3>{{ c.name }}</h3><p>{{ c.description }}</p></article>{% endfor %}</div>{% endblock %}

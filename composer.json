@@ -1,0 +1,17 @@
+{
+    "name": "awd/enterprise-expense-tracker",
+    "type": "project",
+    "description": "Корпоративная система контроля расходов CostRA.",
+    "require": {
+        "php": "~8.1",
+        "ext-pdo": "*",
+        "ext-pdo_pgsql": "*",
+        "ext-mbstring": "*",
+        "twig/twig": "3.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    }
+}
