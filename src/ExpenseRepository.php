@@ -14,7 +14,11 @@ final class ExpenseRepository
         d.name department, r.full_name reviewer FROM expenses e JOIN categories c ON c.id=e.category_id
         JOIN users u ON u.id=e.user_id JOIN departments d ON d.id=u.department_id LEFT JOIN users r ON r.id=e.reviewed_by';
 
-    /** @param PDO $pdo Открытое соединение приложения. */
+    /**
+     * Подключает репозиторий к базе расходов.
+     *
+     * @param PDO $pdo Открытое соединение приложения.
+     */
     public function __construct(private PDO $pdo)
     {
     }
@@ -24,6 +28,7 @@ final class ExpenseRepository
      * @param Expense $expense Данные нового расхода.
      * @param int $owner Владелец, проверенный контроллером.
      * @return int Назначенный ID.
+     * @throws UnexpectedValueException Если БД не вернула целочисленный ID.
      */
     public function createRecord(Expense $expense, int $owner): int
     {
@@ -48,13 +53,19 @@ final class ExpenseRepository
     }
 
 
-    /** @return array Категории для публичной страницы и форм. */
+    /**
+     * Читает справочник категорий в порядке идентификаторов.
+     *
+     * @return array Категории для публичной страницы и форм.
+     */
     public function getCategories(): array
     {
         return $this->pdo->query('SELECT * FROM categories ORDER BY id')->fetchAll();
     }
 
     /**
+     * Ищет и сортирует доступные расходы по фильтрам.
+     *
      * @param ?int $owner ID сотрудника или null для администратора.
      * @param array $filters Проверенные поля поиска.
      * @param bool $recent Ограничивает список пятью последними заявками.
@@ -87,6 +98,8 @@ final class ExpenseRepository
     }
 
     /**
+     * Группирует расходы за месяц по статусу.
+     *
      * @param string $month Первый день отчётного месяца.
      * @param ?int $owner Владелец или null для обзора предприятия.
      * @return array Количество и сумма по каждому представленному статусу.
@@ -106,6 +119,8 @@ final class ExpenseRepository
     }
 
     /**
+     * Обновляет доступную заявку под блокировкой и возвращает изменённую заявку на согласование.
+     *
      * @param int $id ID расхода.
      * @param Expense $expense Проверенные поля формы.
      * @param ?int $owner ID сотрудника или null для администратора.
@@ -151,6 +166,8 @@ final class ExpenseRepository
     }
 
     /**
+     * Записывает решение администратора по ожидающей заявке.
+     *
      * @param int $id ID заявки.
      * @param int $reviewer Администратор из сессии.
      * @param string $status Решение администратора.
@@ -166,6 +183,8 @@ final class ExpenseRepository
     }
 
     /**
+     * Удаляет расход по идентификатору.
+     *
      * @param int $id Удаляемая заявка.
      * @return bool Расход был удалён.
      */

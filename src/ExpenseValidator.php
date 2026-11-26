@@ -8,6 +8,8 @@ namespace App;
 final class ExpenseValidator
 {
     /**
+     * Проверяет поля расхода и собирает ошибки для формы.
+     *
      * @param array $data Строковые поля формы и необязательный checkbox со значением '1'.
      * @param int[] $categoryIds Допустимые ID из справочника.
      * @return array<string, string> Сообщения по полям или пустой массив.
@@ -48,6 +50,8 @@ final class ExpenseValidator
     }
 
     /**
+     * Проверяет точность, диапазон и положительность суммы.
+     *
      * @param string $value Сумма без внешних пробелов.
      * @return bool Сумма положительна и помещается в NUMERIC(12,2) без округления.
      */
@@ -61,6 +65,8 @@ final class ExpenseValidator
     }
 
     /**
+     * Проверяет формат даты и существование указанного дня.
+     *
      * @param string $value Дата формы.
      * @return bool Дата соответствует формату и календарю.
      */
@@ -71,6 +77,8 @@ final class ExpenseValidator
     }
 
     /**
+     * Проверяет идентификатор и наличие категории в справочнике.
+     *
      * @param string $value ID из формы.
      * @param int[] $categoryIds ID из базы.
      * @return bool Положительный ID входит в диапазон SERIAL и присутствует в справочнике.

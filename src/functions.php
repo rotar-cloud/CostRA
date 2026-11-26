@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 /**
+ * Разбирает положительный идентификатор из запроса.
+ *
  * @param mixed $value ID, переданный через форму или URL.
  * @return int|null Положительный ID в диапазоне PostgreSQL INTEGER либо null.
  */
@@ -18,9 +20,11 @@ function parseExpenseId(mixed $value): ?int
 }
 
 /**
+ * Выводит страницу или текст ошибки и завершает запрос.
+ *
  * @param int $code Статус ошибки.
  * @param string $message Фиксированный текст для пользователя.
- * @return void Завершает запрос после вывода сообщения.
+ * @return never
  */
 function httpError(int $code, string $message): void
 {
@@ -36,9 +40,11 @@ function httpError(int $code, string $message): void
 }
 
 /**
+ * Проверяет допустимость HTTP-метода для обработчика.
+ *
  * @param string $method Метод текущего запроса.
  * @param string[] $allowed Методы точки входа.
- * @return void Завершает неподдерживаемый запрос с кодом 405.
+ * @return void
  */
 function requireMethod(string $method, array $allowed): void
 {
@@ -48,6 +54,8 @@ function requireMethod(string $method, array $allowed): void
     }
 }
 /**
+ * Перенаправляет клиента и при необходимости сохраняет уведомление.
+ *
  * @param string $url Внутренний адрес приложения.
  * @param string $notice Однократное подтверждение операции.
  * @return never Завершает запрос перенаправлением.
@@ -60,9 +68,11 @@ function redirect(string $url, string $notice = ''): never
 }
 
 /**
+ * Проверяет строковое поле запроса и удаляет внешние пробелы.
+ *
  * @param array $data Поля запроса.
  * @param string $name Имя поля.
- * @return string Значение в UTF-8 без внешних пробелов.
+ * @return string Значение в UTF-8 без внешних пробелов или пустая строка для отсутствующего поля.
  */
 function field(array $data,string $name): string
 {

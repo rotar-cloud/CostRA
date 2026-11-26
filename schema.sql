@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS users (
  full_name varchar(100) NOT NULL, password_hash text NOT NULL,
  role text NOT NULL CHECK(role IN ('employee','admin')), created_at timestamp NOT NULL DEFAULT now()
 );
+ALTER TABLE users ADD COLUMN IF NOT EXISTS recovery_code_hash text;
 CREATE TABLE IF NOT EXISTS budgets (
  id serial PRIMARY KEY, department_id int NOT NULL REFERENCES departments,
  month date NOT NULL CHECK(extract(day from month)=1), amount numeric(12,2) NOT NULL CHECK(amount BETWEEN 0.01 AND 9999999999.99),

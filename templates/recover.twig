@@ -1,0 +1,9 @@
+{% extends 'layout.twig' %}{% block content %}
+<div class="auth"><section class="panel identity"><img width="55" src="assets/logo.svg" alt="CostRA"><h2>Доступ к аккаунту</h2><img class="auth-art" src="assets/access.svg" alt=""></section>
+<form class="panel stack" method="post"><h2>{{ title }}</h2>{% include 'csrf.twig' %}
+<label>Логин<input name="username" required autocomplete="username" pattern="[A-Za-z0-9_]{3,32}" maxlength="32" value="{{ username }}"></label>
+<label>Резервный код<input name="recovery_code" required type="password" autocomplete="off" pattern="[a-f0-9]{32}" maxlength="32"><small>Введите 32 символа сохранённого кода.</small></label>
+<label>Новый пароль<input type="password" required name="password" autocomplete="new-password" minlength="8"></label>
+<label>Повторите новый пароль<input type="password" required name="confirm" autocomplete="new-password" minlength="8"></label>
+{% include 'captcha.twig' %}
+<button>Изменить пароль</button><a href="login.php">Вернуться ко входу</a></form></div>{% endblock %}

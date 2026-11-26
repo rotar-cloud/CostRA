@@ -5,10 +5,11 @@
 <nav>{% if user %}{% set links={'dashboard':'Обзор','expenses':'Расходы','create':'Новая заявка','budgets':'Бюджеты'} %}
 {% for key,label in links %}<a class="{{ (page==key or (key=='expenses' and page in ['expense','edit','review'])) and not (admin and key=='expenses' and filters.status|default('')=='pending') ? 'active' }}" href="{{ key }}.php">{% include 'icon.twig' with {icon:key} only %}{{ label }}</a>{% endfor %}
 {% if admin %}<a class="{{ page=='expenses' and filters.status|default('')=='pending' ? 'active' }}" href="expenses.php?status=pending">{% include 'icon.twig' with {icon:'review'} only %}Согласование</a><a class="{{ page=='users' ? 'active' }}" href="users.php">{% include 'icon.twig' with {icon:'users'} only %}Пользователи</a>{% endif %}
+<a class="{{ page=='security' ? 'active' }}" href="security.php">Безопасность</a>
 <form method="post" action="logout.php">{% include 'csrf.twig' %}<button class="quiet">{% include 'icon.twig' with {icon:'logout'} only %}Выйти</button></form>
 {% else %}{% for key,label in {'login':'Вход','register':'Регистрация'} %}<a class="public-link" href="{{ key }}.php" {% if page==key %}aria-current="page"{% endif %}>{{ label }}</a>{% endfor %}{% endif %}</nav></header>
 <main>{% if user %}<div class="top"><span>Рабочий кабинет</span><span>{{ user.full_name }} · {{ admin ? 'Администратор' : 'Сотрудник' }}</span></div>{% endif %}
-{% if page not in ['index','register','login'] %}<h1>{{ title }}</h1>{% endif %}
+{% if page not in ['index','register','login','recover'] %}<h1>{{ title }}</h1>{% endif %}
 {% if notice %}<p class="notice success" role="status">{{ notice }}</p>{% endif %}
 {% if page not in ['create','edit'] %}{% for error in errors %}<p class="notice error" role="alert">{{ error }}</p>{% endfor %}{% endif %}
 {% block content %}{% endblock %}</main><footer>CostRA · Enterprise Expense Control System</footer></body></html>

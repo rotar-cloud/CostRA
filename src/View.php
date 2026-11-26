@@ -9,9 +9,11 @@ use Twig\TwigFilter;
 final class View
 {
     /**
+     * Выводит HTML-страницу с фильтрами CostRA.
+     *
      * @param string $template Имя внутреннего шаблона.
      * @param array $data Контекст страницы.
-     * @return void Выводит шаблон с HTML-экранированием.
+     * @return void
      */
     public function render(string $template,array $data): void
     {
@@ -21,6 +23,8 @@ final class View
         echo $twig->render($template.'.twig',$data);
     }
     /**
+     * Переводит время события из UTC в часовой пояс Кишинёва.
+     *
      * @param string $timestamp Метка PostgreSQL в UTC.
      * @return string Местное время события с точностью до секунды.
      */
@@ -31,6 +35,8 @@ final class View
     }
 
     /**
+     * Форматирует десятичную сумму с разделителями тысяч и обозначением валюты.
+     *
      * @param string $amount Десятичное значение из базы.
      * @return string Точное денежное значение в MDL.
      */

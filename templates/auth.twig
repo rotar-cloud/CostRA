@@ -8,5 +8,6 @@
 <label>Логин<input required name="username" autocomplete="username" {% if page!='login' %}pattern="[A-Za-z0-9_]{3,32}"{% endif %} value="{{ formData.username }}"></label>
 <label>Пароль<input required type="password" name="password" autocomplete="{{ page=='login'?'current-password':'new-password' }}" {% if page!='login' %}minlength="8"{% endif %}></label>
 {% if page!='login' %}<label>Повторите пароль<input type="password" required name="confirm" autocomplete="new-password"></label>{% endif %}
+{% include 'captcha.twig' %}
 <button>{{ page=='login'?'Войти':'Создать учётную запись' }}</button>
-{% if page=='login' %}<a href="register.php">Создать учётную запись</a>{% elseif page=='register' %}<a href="login.php">Уже есть аккаунт? Войти</a>{% endif %}</form></div>{% endblock %}
+{% if page=='login' %}<a href="recover.php">Забыли пароль?</a><a href="register.php">Создать учётную запись</a>{% elseif page=='register' %}<a href="login.php">Уже есть аккаунт? Войти</a>{% endif %}</form></div>{% endblock %}

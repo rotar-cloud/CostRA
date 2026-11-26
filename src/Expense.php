@@ -35,61 +35,101 @@ final class Expense
     ) {
     }
 
-    /** @return string Название расхода. */
+    /**
+     * Возвращает название расхода.
+     *
+     * @return string Название расхода.
+     */
     public function getTitle(): string
     {
         return $this->title;
     }
 
-    /** @return string Десятичная сумма с двумя знаками после точки. */
+    /**
+     * Возвращает сумму без преобразования в число с плавающей точкой.
+     *
+     * @return string Десятичная сумма с двумя знаками после точки.
+     */
     public function getAmount(): string
     {
         return $this->amount;
     }
 
-    /** @return string Дата расхода. */
+    /**
+     * Возвращает календарную дату расхода.
+     *
+     * @return string Дата расхода.
+     */
     public function getExpenseDate(): string
     {
         return $this->expenseDate;
     }
 
-    /** @return int ID категории. */
+    /**
+     * Возвращает идентификатор выбранной категории.
+     *
+     * @return int ID категории.
+     */
     public function getCategoryId(): int
     {
         return $this->categoryId;
     }
 
-    /** @return string Получатель платежа. */
+    /**
+     * Возвращает наименование получателя платежа.
+     *
+     * @return string Получатель платежа.
+     */
     public function getMerchant(): string
     {
         return $this->merchant;
     }
 
-    /** @return string Описание расхода. */
+    /**
+     * Возвращает пояснение к расходу.
+     *
+     * @return string Описание расхода.
+     */
     public function getDescription(): string
     {
         return $this->description;
     }
 
-    /** @return bool Признак регулярного расхода. */
+    /**
+     * Показывает, отмечен ли расход как регулярный.
+     *
+     * @return bool Признак регулярного расхода.
+     */
     public function isRecurring(): bool
     {
         return $this->isRecurring;
     }
 
-    /** @return ?int ID сохранённой записи. */
+    /**
+     * Возвращает идентификатор записи, если он задан.
+     *
+     * @return ?int ID сохранённой записи.
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /** @return ?string Название категории из справочника. */
+    /**
+     * Возвращает название категории, если оно передано из справочника.
+     *
+     * @return ?string Название категории из справочника.
+     */
     public function getCategoryName(): ?string
     {
         return $this->categoryName;
     }
 
-    /** @return ?string Время создания записи в БД. */
+    /**
+     * Возвращает время создания, если оно получено из БД.
+     *
+     * @return ?string Время создания записи в БД.
+     */
     public function getCreatedAt(): ?string
     {
         return $this->createdAt;

@@ -6,10 +6,16 @@ use PDO;
 /** Лимиты и вычисляемые финансовые показатели подразделений. */
 final class BudgetRepository
 {
-    /** @param PDO $db Подключение CostRA. */
+    /**
+     * Подключает хранилище бюджетов.
+     *
+     * @param PDO $db Подключение CostRA.
+     */
     public function __construct(private PDO $db) {}
 
     /**
+     * Рассчитывает использование лимитов и прогноз с учётом заявки.
+     *
      * @param string $month Отчётный месяц YYYY-MM.
      * @param ?int $department Подразделение или null для всех отделов.
      * @param string $proposal Сумма заявки для прогноза.
@@ -37,10 +43,12 @@ final class BudgetRepository
     }
 
     /**
+     * Устанавливает или обновляет месячный лимит подразделения.
+     *
      * @param int $dept Выбранное подразделение.
      * @param string $month Месяц лимита YYYY-MM.
      * @param string $amount Проверенная десятичная сумма.
-     * @return void Сохраняет единственный лимит отдела на месяц.
+     * @return void
      */
     public function save(int $dept,string $month,string $amount): void
     {

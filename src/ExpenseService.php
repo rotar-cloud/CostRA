@@ -8,6 +8,8 @@ namespace App;
 final class ExpenseService
 {
     /**
+     * Связывает проверку полей с хранилищем расходов.
+     *
      * @param ExpenseRepository $repository Доступ к расходам и справочнику.
      * @param ExpenseValidator $validator Общие правила проверки полей.
      */
@@ -18,6 +20,8 @@ final class ExpenseService
     }
 
     /**
+     * Проверяет и создаёт расход для выбранного владельца.
+     *
      * @param array $input Исходные поля формы создания.
      * @param int $owner Проверенный ID владельца.
      * @return array При saved содержит id, при invalid — errors и formData.
@@ -28,6 +32,8 @@ final class ExpenseService
     }
 
     /**
+     * Проверяет поля и сохраняет изменения доступного расхода.
+     *
      * @param int $id ID редактируемого расхода.
      * @param array $input Исходные поля формы редактирования.
      * @param ?int $owner ID сотрудника или null для администратора.

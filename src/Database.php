@@ -17,7 +17,7 @@ final class Database
      * Открывает соединение с указанной базой PostgreSQL.
      *
      * @param array{host: string, port: string, dbname: string, user: string|false, password: string|false} $config Параметры подключения.
-     * @throws InvalidArgumentException Если учётные данные не заданы.
+     * @throws InvalidArgumentException Если отсутствуют учётные данные или выбрана база, отличная от awd_li.
      * @throws PDOException При ошибке подключения.
      */
     public function __construct(array $config)

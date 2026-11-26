@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-use App\{AuthService,BudgetRepository,Database,ExpenseRepository,ExpenseService,ExpenseValidator,UserRepository,View};
+use App\{AuthService,BudgetRepository,Captcha,Database,ExpenseRepository,ExpenseService,ExpenseValidator,UserRepository,View};
 
 ini_set('display_errors','0');
 require_once __DIR__.'/src/functions.php';
@@ -25,12 +25,14 @@ $_SESSION['csrf'] ??= bin2hex(random_bytes(32));
 $page=basename($_SERVER['SCRIPT_FILENAME'],'.php');
 $post=$_SERVER['REQUEST_METHOD']==='POST';
 $actions=['delete','review','logout'];
-$forms=['login','register','create','edit','users','budgets'];
+$forms=['login','register','create','edit','users','budgets','recover','security'];
 requireMethod($_SERVER['REQUEST_METHOD'],in_array($page,$actions,true)?['POST']:(in_array($page,$forms,true)?['GET','POST']:['GET']));
+$captcha=new Captcha();
 if ($post && (!is_string($_POST['csrf'] ?? null) || !hash_equals($_SESSION['csrf'],$_POST['csrf']))) {
+    if (in_array($page,['login','register','recover'],true)) { $captcha->discard($page); }
     httpError(403,'Проверка формы не пройдена. Обновите страницу.');
 }
-$public=in_array($page,['index','register','login'],true);
+$public=in_array($page,['index','register','login','recover'],true);
 if (!$public && !isset($_SESSION['user_id'])) { redirect('login.php'); }
 $db=(new Database(require __DIR__.'/config/database.php'))->getConnection();
 $users=new UserRepository($db);

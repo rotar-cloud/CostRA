@@ -1,0 +1,7 @@
+{% extends 'layout.twig' %}{% block content %}
+<section class="panel stack expense-detail"><h2>Резервный код</h2>
+{% if code %}<div role="status"><p>Сохраните код отдельно от пароля. После ухода со страницы посмотреть его снова нельзя.</p><code style="overflow-wrap:anywhere">{{ code }}</code></div>{% endif %}
+<p>Создайте код заранее, чтобы восстановить пароль самостоятельно. Новый код заменяет предыдущий.</p>
+<form class="stack" method="post">{% include 'csrf.twig' %}
+<label>Текущий пароль<input type="password" name="password" required autocomplete="current-password"></label>
+<button>Создать резервный код</button></form></section>{% endblock %}

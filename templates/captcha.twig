@@ -1,0 +1,3 @@
+{% if captchaQuestion %}<div class="field"><label for="captcha">Проверка безопасности <strong>{{ captchaQuestion }}</strong></label>
+<input id="captcha" name="captcha" required inputmode="numeric" pattern="[0-9]+" autocomplete="off"{% if captchaError %} aria-invalid="true" aria-describedby="captcha-error"{% endif %}>
+{% if captchaError %}<small class="error" id="captcha-error" role="alert">{{ captchaError }}</small>{% endif %}</div>{% endif %}
